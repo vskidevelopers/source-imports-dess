@@ -92,18 +92,18 @@ export default function TrackerPage() {
                 {/* ===== TRACKING FORM ===== */}
                 <form onSubmit={handleTrack} className="bg-white p-6 rounded-xl shadow-md mb-6">
                     <label className="block text-sm font-medium mb-2">Quote ID</label>
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                         <input
                             type="text"
                             value={inputId}
                             onChange={(e) => setInputId(e.target.value.toUpperCase())}
                             placeholder="SID-2026-00001"
-                            className="flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none uppercase tracking-wider font-mono"
+                            className="flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none uppercase tracking-wider font-mono w-full"
                         />
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition disabled:opacity-60"
+                            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition disabled:opacity-60 sm:w-auto w-full"
                         >
                             {loading ? (
                                 <span className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export default function TrackerPage() {
                         <p className="text-4xl mb-3">🔍</p>
                         <h2 className="text-xl font-semibold mb-2">Quote Not Found</h2>
                         <p className="text-gray-600 mb-4">Double-check your Quote ID or reach out to us directly.</p>
-                        <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-block px-5 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#128C7E] transition">
+                        <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-block px-5 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#128C7E] transition w-full sm:inline-block">
                             💬 Chat on WhatsApp
                         </a>
                     </div>
