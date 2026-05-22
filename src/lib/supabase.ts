@@ -19,11 +19,23 @@ export const supabase = createClient(
 // Helper: Generate quote ID like SID-2026-00142
 export const generateQuoteId = async (): Promise<string> => {
   const year = new Date().getFullYear();
-  // Simple counter approach - in production, use Supabase RPC for atomic increment
-  const { count } = await supabase
-    .from("quotes")
-    .select("*", { count: "exact", head: true })
-    .eq("quote_id", `SID-${year}-*`); // Fallback: just use timestamp + random
-  const nextNum = String((count || 0) + 1).padStart(5, "0");
-  return `SID-${year}-${nextNum}`;
+  let attempts = 0;
+
+  while (attempts < 3) {
+    const randomPart = Math.floor(10000 + Math.random() * 90000); // 10000–99999
+    const candidateId = `SID-${year}-${randomPart}`;
+
+    // Check if ID already exists
+    const { data } = await supabase
+      .from("quotes")
+      .select("id")
+      .eq("quote_id", candidateId)
+      .maybeSingle();
+
+    if (!data) return candidateId; // ✅ Unique, safe to use
+    attempts++;
+  }
+
+  // ️ Fallback (timestamp-based if somehow 3 collisions occur)
+  return `SID-${year}-${Date.now().toString().slice(-5)}`;
 };
